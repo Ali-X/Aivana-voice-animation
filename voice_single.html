@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animated Circles</title>
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden; /* prevent background SVGs from causing horizontal scroll */
+        }
+
+        .base {
+            height: 100dvh;
+            width: 100%; /* avoid 100dvw to prevent left shift when a vertical scrollbar is present */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .base .circ {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            position: absolute;
+            transform-style: preserve-3d;
+            border: 2px solid;
+            border-top-color: rgba(14, 173, 160, 0.2);
+            border-bottom-color: rgba(115, 137, 255, 0.5);
+            border-left-color: rgba(23, 145, 255, 0.2);
+            border-right-color: rgba(23, 145, 255, 0.2);
+            opacity: 0;
+            background: radial-gradient(circle, rgba(23, 145, 255, 0.03) 0%, rgba(115, 137, 255, 0.03) 30%, rgba(255, 255, 255, 0) 50%);
+        }
+
+        /* i = 1..7 */
+        .base .circ.circ-1 {
+            transform: rotate3d(0, 1, 0, 24deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.1333333333s;
+        }
+
+        .base .circ.circ-2 {
+            transform: rotate3d(0, 1, 0, 48deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.2666666667s;
+        }
+
+        .base .circ.circ-3 {
+            transform: rotate3d(0, 1, 0, 72deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.4s;
+        }
+
+        .base .circ.circ-4 {
+            transform: rotate3d(0, 1, 0, 96deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.5333333333s;
+        }
+
+        .base .circ.circ-5 {
+            transform: rotate3d(0, 1, 0, 120deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.6666666667s;
+        }
+
+        .base .circ.circ-6 {
+            transform: rotate3d(0, 1, 0, 144deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.8s;
+        }
+
+        .base .circ.circ-7 {
+            transform: rotate3d(0, 1, 0, 168deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.9333333333s;
+        }
+
+        /* i = 8..15 */
+        .base .circ.circ-8 {
+            transform: rotate3d(1, 0, 0, 192deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.0666666667s;
+        }
+
+        .base .circ.circ-9 {
+            transform: rotate3d(1, 0, 0, 216deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.2s;
+        }
+
+        .base .circ.circ-10 {
+            transform: rotate3d(1, 0, 0, 240deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.3333333333s;
+        }
+
+        .base .circ.circ-11 {
+            transform: rotate3d(1, 0, 0, 264deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.4666666667s;
+        }
+
+        .base .circ.circ-12 {
+            transform: rotate3d(1, 0, 0, 288deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.6s;
+        }
+
+        .base .circ.circ-13 {
+            transform: rotate3d(1, 0, 0, 312deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.7333333333s;
+        }
+
+        .base .circ.circ-14 {
+            transform: rotate3d(1, 0, 0, 336deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.8666666667s;
+        }
+
+        .base .circ.circ-15 {
+            transform: rotate3d(1, 0, 0, 360deg);
+            animation: rotate-2 3s linear infinite;
+            animation-delay: 2s;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle--pink {
+            bottom: 0;
+        }
+
+        .circle--blue {
+            bottom: 0;
+            left: -30%
+        }
+
+        .circle--purple {
+            bottom: 0;
+            right: -40%
+        }
+
+        @keyframes rotate {
+            from {
+                opacity: 1;
+                transform: rotate3d(0, 1, 1, 360deg);
+            }
+            to {
+                transform: rotate3d(0, 1, 1, 0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate-2 {
+            from {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 0deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 360deg);
+            }
+        }
+
+        /* Mic in the center */
+        .mic {
+            position: relative;
+            z-index: 2;
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+            animation: micPulse 4s ease-in-out infinite;
+            /*filter: drop-shadow(0 0 20px rgba(115, 137, 255, 0.5));*/
+        }
+
+        /*.mic svg {*/
+        /*    width: 48px;*/
+        /*    height: 64px;*/
+        /*    display: block;*/
+        /*}*/
+
+        .mic path {
+            fill: white;
+            /*fill: rgba(23, 145, 255, 0.2);*/
+        }
+
+        @keyframes micPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+                /*filter: drop-shadow(0 0 6px rgba(115, 137, 255, 0.35));*/
+            }
+            50% {
+                transform: scale(1.4);
+                opacity: 0.9;
+                /*filter: drop-shadow(0 0 12px rgba(115, 137, 255, 0.65));*/
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+                /*filter: drop-shadow(0 0 6px rgba(115, 137, 255, 0.35));*/
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="base">
+    <div class="circ circ-1"></div>
+    <div class="circ circ-2"></div>
+    <div class="circ circ-3"></div>
+    <div class="circ circ-4"></div>
+    <div class="circ circ-5"></div>
+    <div class="circ circ-6"></div>
+    <div class="circ circ-7"></div>
+    <div class="circ circ-8"></div>
+    <div class="circ circ-9"></div>
+    <div class="circ circ-10"></div>
+    <div class="circ circ-11"></div>
+    <div class="circ circ-12"></div>
+    <div class="circ circ-13"></div>
+    <div class="circ circ-14"></div>
+    <div class="circ circ-15"></div>
+
+    <svg class="mic" width="14" height="20" viewBox="0 0 14 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.99901 12.5C8.65901 12.5 9.99901 11.16 9.99901 9.5V3.5C9.99901 1.84 8.65901 0.5 6.99901 0.5C5.33901 0.5 3.99901 1.84 3.99901 3.5V9.5C3.99901 11.16 5.33901 12.5 6.99901 12.5ZM12.909 9.5C12.419 9.5 12.009 9.86 11.929 10.35C11.519 12.7 9.46901 14.5 6.99901 14.5C4.52901 14.5 2.47901 12.7 2.06901 10.35C1.98901 9.86 1.57901 9.5 1.08901 9.5C0.47901 9.5 -0.00099006 10.04 0.0890099 10.64C0.57901 13.64 2.97901 15.99 5.99901 16.42V18.5C5.99901 19.05 6.44901 19.5 6.99901 19.5C7.54901 19.5 7.99901 19.05 7.99901 18.5V16.42C11.019 15.99 13.419 13.64 13.909 10.64C14.009 10.04 13.519 9.5 12.909 9.5Z"
+              fill="#9E9E9E"/>
+    </svg>
+
+<!--    bg circle pink-->
+    <svg class="circle circle--pink" width="1284" height="543" viewBox="0 0 1284 543" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_103300)">
+            <ellipse cx="770" cy="453.5" rx="570" ry="253.5" fill="#D073FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_103300" x="0" y="0" width="1540" height="907" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_103300"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!--    bg circle blue-->
+    <svg class="circle circle--blue" width="740" height="870" viewBox="0 0 740 870" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_102961)">
+            <ellipse cx="166.659" cy="546.063" rx="293.644" ry="414.626" transform="rotate(51.4271 166.659 546.063)" fill="#1791FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_102961" x="-405.699" y="0.314941" width="1144.72" height="1091.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_102961"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!--    bg circle purple-->
+    <svg class="circle circle--purple" width="866" height="856" viewBox="0 0 866 856" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_102962)">
+            <ellipse cx="668" cy="409" rx="468" ry="247" fill="#7389FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_102962" x="0" y="-38" width="1336" height="894" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_102962"/>
+            </filter>
+        </defs>
+    </svg>
+
+</div>
+</body>
+</html>

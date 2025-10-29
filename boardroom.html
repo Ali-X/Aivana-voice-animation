@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animated Circles</title>
+    <style>
+        body {
+            margin: 0;
+            background: #F5F5F5;
+            overflow-x: hidden; /* prevent background SVG overflow from creating horizontal scroll */
+        }
+
+        .base {
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .base .circ {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            position: absolute;
+            transform-style: preserve-3d;
+            border: 2px solid;
+            border-top-color: rgba(14, 173, 160, 0.2);
+            border-bottom-color: rgba(115, 137, 255, 0.5);
+            border-left-color: rgba(23, 145, 255, 0.2);
+            border-right-color: rgba(23, 145, 255, 0.2);
+            opacity: 0;
+            background: radial-gradient(circle, rgba(23, 145, 255, 0.03) 0%, rgba(115, 137, 255, 0.03) 30%, rgba(255, 255, 255, 0) 50%);
+        }
+
+        /* i = 1..7 */
+        .base .circ.circ-1 {
+            transform: rotate3d(0, 1, 0, 24deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.1333333333s;
+        }
+
+        .base .circ.circ-2 {
+            transform: rotate3d(0, 1, 0, 48deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.2666666667s;
+        }
+
+        .base .circ.circ-3 {
+            transform: rotate3d(0, 1, 0, 72deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.4s;
+        }
+
+        .base .circ.circ-4 {
+            transform: rotate3d(0, 1, 0, 96deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.5333333333s;
+        }
+
+        .base .circ.circ-5 {
+            transform: rotate3d(0, 1, 0, 120deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.6666666667s;
+        }
+
+        .base .circ.circ-6 {
+            transform: rotate3d(0, 1, 0, 144deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.8s;
+        }
+
+        .base .circ.circ-7 {
+            transform: rotate3d(0, 1, 0, 168deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.9333333333s;
+        }
+
+        /* i = 8..15 */
+        .base .circ.circ-8 {
+            transform: rotate3d(1, 0, 0, 192deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.0666666667s;
+        }
+
+        .base .circ.circ-9 {
+            transform: rotate3d(1, 0, 0, 216deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.2s;
+        }
+
+        .base .circ.circ-10 {
+            transform: rotate3d(1, 0, 0, 240deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.3333333333s;
+        }
+
+        .base .circ.circ-11 {
+            transform: rotate3d(1, 0, 0, 264deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.4666666667s;
+        }
+
+        .base .circ.circ-12 {
+            transform: rotate3d(1, 0, 0, 288deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.6s;
+        }
+
+        .base .circ.circ-13 {
+            transform: rotate3d(1, 0, 0, 312deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.7333333333s;
+        }
+
+        .base .circ.circ-14 {
+            transform: rotate3d(1, 0, 0, 336deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.8666666667s;
+        }
+
+        .base .circ.circ-15 {
+            transform: rotate3d(1, 0, 0, 360deg);
+            animation: rotate-2 3s linear infinite;
+            animation-delay: 2s;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle--pink {
+            bottom: 0;
+        }
+
+        .circle--blue {
+            bottom: 0;
+            left: -30%
+        }
+
+        .circle--purple {
+            bottom: 0;
+            right: -40%
+        }
+
+        @keyframes rotate {
+            from {
+                opacity: 1;
+                transform: rotate3d(0, 1, 1, 360deg);
+            }
+            to {
+                transform: rotate3d(0, 1, 1, 0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate-2 {
+            from {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 0deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 360deg);
+            }
+        }
+
+        /* Mic in the center */
+        .mic {
+            position: relative;
+            z-index: 2;
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+            animation: micPulse 4s ease-in-out infinite;
+            /*filter: drop-shadow(0 0 20px rgba(115, 137, 255, 0.5));*/
+        }
+
+        /*.mic svg {*/
+        /*    width: 48px;*/
+        /*    height: 64px;*/
+        /*    display: block;*/
+        /*}*/
+
+        .mic path {
+            fill: #1791FF;
+            /*fill: rgba(23, 145, 255, 0.2);*/
+        }
+
+        @keyframes micPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+                /*filter: drop-shadow(0 0 6px rgba(115, 137, 255, 0.35));*/
+            }
+            50% {
+                transform: scale(1.4);
+                opacity: 0.9;
+                /*filter: drop-shadow(0 0 12px rgba(115, 137, 255, 0.65));*/
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+                /*filter: drop-shadow(0 0 6px rgba(115, 137, 255, 0.35));*/
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="base">
+    <div class="circ circ-1"></div>
+    <div class="circ circ-2"></div>
+    <div class="circ circ-3"></div>
+    <div class="circ circ-4"></div>
+    <div class="circ circ-5"></div>
+    <div class="circ circ-6"></div>
+    <div class="circ circ-7"></div>
+    <div class="circ circ-8"></div>
+    <div class="circ circ-9"></div>
+    <div class="circ circ-10"></div>
+    <div class="circ circ-11"></div>
+    <div class="circ circ-12"></div>
+    <div class="circ circ-13"></div>
+    <div class="circ circ-14"></div>
+    <div class="circ circ-15"></div>
+
+    <svg class="mic" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.3286 2.7998C11.14 2.79977 9.03662 3.64818 7.46056 5.1667C5.88449 6.68522 4.95848 8.75559 4.87714 10.9427C1.97429 13.2141 0 16.2227 0 20.5084C0 23.7941 1.19429 26.0112 2.95143 28.0912C3.01624 30.0548 3.69335 31.9489 4.88801 33.5086C6.08266 35.0683 7.73506 36.2154 9.61395 36.7894C11.4928 37.3634 13.5042 37.3356 15.3665 36.7099C17.2288 36.0842 18.8489 34.8919 20 33.2998C21.1507 34.893 22.771 36.0864 24.6338 36.7129C26.4966 37.3394 28.5088 37.3675 30.3884 36.7933C32.268 36.2192 33.9209 35.0715 35.1157 33.5111C36.3106 31.9506 36.9874 30.0555 37.0514 28.0912C38.8086 26.0112 40 23.7941 40 20.5084C40 16.2227 38.0229 13.2141 35.12 10.9455C35.0553 9.21227 34.4593 7.54081 33.4127 6.15771C32.3661 4.7746 30.9195 3.74674 29.2691 3.21344C27.6187 2.68013 25.8442 2.66718 24.1861 3.17633C22.5281 3.68549 21.0667 4.69213 20 6.0598C19.2093 5.04469 18.1973 4.2234 17.0412 3.65847C15.8851 3.09354 14.6153 2.79986 13.3286 2.7998ZM8.44286 11.2569C8.44286 10.6153 8.56923 9.98003 8.81476 9.38727C9.06029 8.7945 9.42017 8.25591 9.87385 7.80223C10.3275 7.34855 10.8661 6.98867 11.4589 6.74314C12.0517 6.49761 12.687 6.37123 13.3286 6.37123C13.9702 6.37123 14.6055 6.49761 15.1983 6.74314C15.791 6.98867 16.3296 7.34855 16.7833 7.80223C17.237 8.25591 17.5969 8.7945 17.8424 9.38727C18.0879 9.98003 18.2143 10.6153 18.2143 11.2569V16.7484C18.1686 17.2912 17.8571 18.4284 17.1457 19.4655C16.4371 20.4941 15.4571 21.2655 14.1114 21.4169C13.6405 21.47 13.2099 21.7079 12.9144 22.0785C12.6189 22.449 12.4827 22.9217 12.5357 23.3927C12.5888 23.8636 12.8267 24.2942 13.1972 24.5897C13.5677 24.8852 14.0405 25.0214 14.5114 24.9684C15.8581 24.8201 17.1386 24.3063 18.2143 23.4827V27.7798C18.2143 29.3309 17.5981 30.8186 16.5013 31.9154C15.4045 33.0122 13.9169 33.6284 12.3657 33.6284C10.8146 33.6284 9.32697 33.0122 8.23015 31.9154C7.13333 30.8186 6.51714 29.3309 6.51714 27.7798V27.7255C6.61714 27.1912 6.82286 26.5684 7.1 26.0055C7.39714 25.3998 7.7 25.0227 7.90571 24.8627C8.08994 24.7173 8.24373 24.537 8.35829 24.3322C8.47285 24.1274 8.54595 23.902 8.57341 23.6689C8.60087 23.4358 8.58215 23.1996 8.51833 22.9738C8.4545 22.7479 8.34682 22.5369 8.20143 22.3527C8.05604 22.1684 7.87578 22.0147 7.67096 21.9001C7.46613 21.7855 7.24075 21.7124 7.00767 21.685C6.7746 21.6575 6.5384 21.6762 6.31255 21.74C6.08671 21.8039 5.87565 21.9116 5.69143 22.0569C5.12457 22.5277 4.64488 23.0944 4.27429 23.7312C3.78457 22.7289 3.54256 21.6237 3.56857 20.5084C3.56857 18.1769 4.36286 16.3941 5.82571 14.8741C6.12679 15.3921 6.48942 15.8718 6.90571 16.3027C7.81143 17.2455 8.90571 17.8798 9.80286 18.0827C10.0344 18.1436 10.2759 18.1573 10.5129 18.1231C10.7498 18.0888 10.9775 18.0072 11.1823 17.8832C11.3872 17.7591 11.5649 17.5952 11.7051 17.401C11.8453 17.2069 11.945 16.9865 11.9982 16.7531C12.0515 16.5196 12.0573 16.2779 12.0153 16.0421C11.9732 15.8064 11.8842 15.5816 11.7535 15.3809C11.6227 15.1803 11.453 15.008 11.2544 14.8743C11.0557 14.7406 10.8322 14.6482 10.5971 14.6027L10.4857 14.5598C10.3898 14.5164 10.2963 14.4678 10.2057 14.4141C9.72295 14.1159 9.31372 13.7125 9.00849 13.2342C8.70326 12.7558 8.50992 12.2147 8.44286 11.6512V11.2569ZM25.4914 24.9684C24.1438 24.8206 22.8622 24.3068 21.7857 23.4827V27.7798C21.7857 29.3309 22.4019 30.8186 23.4987 31.9154C24.5955 33.0122 26.0831 33.6284 27.6343 33.6284C29.1854 33.6284 30.673 33.0122 31.7699 31.9154C32.8667 30.8186 33.4829 29.3309 33.4829 27.7798V27.7255C33.3625 27.1297 33.1667 26.5517 32.9 26.0055C32.6029 25.3998 32.3 25.0227 32.0943 24.8627C31.9101 24.7173 31.7563 24.537 31.6417 24.3322C31.5271 24.1274 31.4541 23.902 31.4266 23.6689C31.3991 23.4358 31.4178 23.1996 31.4817 22.9738C31.5455 22.7479 31.6532 22.5369 31.7986 22.3527C31.944 22.1684 32.1242 22.0147 32.329 21.9001C32.5339 21.7855 32.7593 21.7124 32.9923 21.685C33.2254 21.6575 33.4616 21.6762 33.6874 21.74C33.9133 21.8039 34.1243 21.9116 34.3086 22.0569C34.8829 22.5141 35.3543 23.1141 35.7257 23.7312C36.1971 22.7827 36.4314 21.7684 36.4314 20.5084C36.4314 18.1769 35.6371 16.3941 34.1743 14.8741C33.8732 15.3921 33.5106 15.8718 33.0943 16.3027C32.1886 17.2455 31.0943 17.8798 30.1971 18.0827C29.9656 18.1436 29.7241 18.1573 29.4871 18.1231C29.2502 18.0888 29.0225 18.0072 28.8177 17.8832C28.6128 17.7591 28.4351 17.5952 28.2949 17.401C28.1547 17.2069 28.0551 16.9865 28.0018 16.7531C27.9485 16.5196 27.9427 16.2779 27.9847 16.0421C28.0268 15.8064 28.1158 15.5816 28.2465 15.3809C28.3773 15.1803 28.547 15.008 28.7456 14.8743C28.9443 14.7406 29.1678 14.6482 29.4029 14.6027L29.5143 14.5598C29.6102 14.5164 29.7037 14.4678 29.7943 14.4141C30.2767 14.1161 30.6857 13.7133 30.9909 13.2354C31.2961 12.7576 31.4897 12.2171 31.5571 11.6541V11.2541C31.5571 9.95832 31.0424 8.71562 30.1262 7.79937C29.2099 6.88312 27.9672 6.36838 26.6714 6.36838C25.3757 6.36838 24.133 6.88312 23.2167 7.79937C22.3005 8.71562 21.7857 9.95832 21.7857 11.2541V16.7484C21.8314 17.2912 22.1429 18.4284 22.8543 19.4655C23.5629 20.4941 24.54 21.2655 25.8886 21.4169C26.1218 21.4432 26.3475 21.5151 26.5529 21.6287C26.7583 21.7422 26.9393 21.895 27.0856 22.0785C27.2319 22.2619 27.3407 22.4724 27.4057 22.6979C27.4706 22.9234 27.4906 23.1595 27.4643 23.3927C27.438 23.6259 27.3661 23.8516 27.2526 24.057C27.1391 24.2624 26.9862 24.4434 26.8028 24.5897C26.6193 24.736 26.4088 24.8448 26.1833 24.9097C25.9578 24.9747 25.7218 24.9946 25.4886 24.9684" fill="#424242"/>
+    </svg>
+
+
+</div>
+</body>
+</html>
