@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animated Circles</title>
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden; /* prevent background SVGs from creating horizontal scroll that visually shifts center */
+        }
+
+        .base {
+            height: 100dvh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .base .circ {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: absolute;
+            transform-style: preserve-3d;
+            border: 2px solid;
+            border-top-color: rgba(14, 173, 160, 0.2);
+            border-bottom-color: rgba(115, 137, 255, 0.5);
+            border-left-color: rgba(23, 145, 255, 0.2);
+            border-right-color: rgba(23, 145, 255, 0.2);
+            opacity: 0;
+            background: radial-gradient(circle, rgba(23, 145, 255, 0.03) 0%, rgba(115, 137, 255, 0.03) 30%, rgba(255, 255, 255, 0) 50%);
+        }
+
+        /* i = 1..7 */
+        .base .circ.circ-1 {
+            transform: rotate3d(0, 1, 0, 24deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.1333333333s;
+        }
+
+        .base .circ.circ-2 {
+            transform: rotate3d(0, 1, 0, 48deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.2666666667s;
+        }
+
+        .base .circ.circ-3 {
+            transform: rotate3d(0, 1, 0, 72deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.4s;
+        }
+
+        .base .circ.circ-4 {
+            transform: rotate3d(0, 1, 0, 96deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.5333333333s;
+        }
+
+        .base .circ.circ-5 {
+            transform: rotate3d(0, 1, 0, 120deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.6666666667s;
+        }
+
+        .base .circ.circ-6 {
+            transform: rotate3d(0, 1, 0, 144deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.8s;
+        }
+
+        .base .circ.circ-7 {
+            transform: rotate3d(0, 1, 0, 168deg);
+            animation: rotate 3s linear infinite;
+            animation-delay: 0.9333333333s;
+        }
+
+        /* i = 8..15 */
+        .base .circ.circ-8 {
+            transform: rotate3d(1, 0, 0, 192deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.0666666667s;
+        }
+
+        .base .circ.circ-9 {
+            transform: rotate3d(1, 0, 0, 216deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.2s;
+        }
+
+        .base .circ.circ-10 {
+            transform: rotate3d(1, 0, 0, 240deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.3333333333s;
+        }
+
+        .base .circ.circ-11 {
+            transform: rotate3d(1, 0, 0, 264deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.4666666667s;
+        }
+
+        .base .circ.circ-12 {
+            transform: rotate3d(1, 0, 0, 288deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.6s;
+        }
+
+        .base .circ.circ-13 {
+            transform: rotate3d(1, 0, 0, 312deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.7333333333s;
+        }
+
+        .base .circ.circ-14 {
+            transform: rotate3d(1, 0, 0, 336deg);
+            animation: rotate-2 4s linear infinite;
+            animation-delay: 1.8666666667s;
+        }
+
+        .base .circ.circ-15 {
+            transform: rotate3d(1, 0, 0, 360deg);
+            animation: rotate-2 3s linear infinite;
+            animation-delay: 2s;
+        }
+
+        /* i = 16 */
+        .base .circ.circ-16 {
+            transform: rotate3d(1, 0, 0, 384deg);
+            animation: rotate-2 3s linear infinite;
+            animation-delay: 2.1333333333s;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle--pink {
+            bottom: 0;
+        }
+
+        .circle--blue {
+            bottom: 0;
+            left: -30%
+        }
+
+        .circle--purple {
+            bottom: 0;
+            right: -40%
+        }
+
+        @keyframes rotate {
+            from {
+                opacity: 1;
+                transform: rotate3d(0, 1, 1, 360deg);
+            }
+            to {
+                transform: rotate3d(0, 1, 1, 0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate-2 {
+            from {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 0deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotate3d(1, 0, 1, 360deg);
+            }
+        }
+
+        @keyframes micPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+        }
+
+        /* === Five-logo orbit layout (single active animation) === */
+        .orbit {
+            position: absolute;
+            inset: 0;
+        }
+
+        .orbit .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0; /* invisible "table" center */
+            height: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Centered Aivana logo (acts like a table emblem, semi-transparent) */
+        .center-aivana {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 50%;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+        .center-aivana svg { width: 100%; height: 100%; display: block; }
+
+        /* Place ring cluster inside the active orbit item */
+        .orbit-item.is-active .circ {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            margin: auto;
+        }
+
+        .orbit-item {
+            --radius: 18rem; /* distance from center */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            margin: -5rem; /* center the circle */
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transform: rotate(var(--angle)) translate(var(--radius));
+        }
+        /* bubble look for orbit logos (not the user's seat) */
+        .orbit-item:not(.seat-me) {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07), inset 0 1px 10px rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        /* Active item should not have the bubble chrome so rings are cleanly visible */
+        .orbit-item.is-active {
+            /*background: transparent;*/
+            /*border: 0;*/
+            /*box-shadow: none;*/
+            /*backdrop-filter: none;*/
+            /*-webkit-backdrop-filter: none;*/
+        }
+
+        .orbit-item.is-active img {
+            animation: micPulse 4s ease-in-out infinite;
+        }
+
+        .orbit-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            pointer-events: none;
+            opacity: 0.74;
+        }
+
+        /* Your seat at the table (bottom center) */
+        .orbit-item.seat-me {
+            /*background: red;*/
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            animation: none;
+        }
+
+        /* positions around the center: arc in front of the user (top half) */
+        .orbit-item.seat-me { --angle: 90deg; }
+        .orbit-item.pos-1 { --angle: -200deg; }
+        .orbit-item.pos-2 { --angle: -145deg; }
+        .orbit-item.pos-3 { --angle: -90deg; }
+        .orbit-item.pos-4 { --angle: -30deg; }
+        .orbit-item.pos-5 { --angle: 25deg; }
+
+        /* More active floating for orbit items (exclude the user seat and the active ring) */
+        .orbit-item:not(.seat-me) {
+            animation: float-self 6s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* Stagger the float so they don't sync */
+        .orbit-item.pos-2:not(.seat-me) { animation-delay: .15s; }
+        .orbit-item.pos-3:not(.seat-me) { animation-delay: .3s; }
+        .orbit-item.pos-4:not(.seat-me) { animation-delay: .45s; }
+        .orbit-item.pos-5:not(.seat-me) { animation-delay: .6s; }
+
+        @keyframes float-self {
+            0% {
+                transform: rotate(var(--angle)) translate(var(--radius)) translateX(0) translateY(0) scale(1);
+            }
+            25% {
+                transform:  rotate(var(--angle)) translate(var(--radius)) translateX(6px) translateY(-14px) scale(1.03);
+            }
+            50% {
+                transform: rotate(var(--angle)) translate(var(--radius)) translateX(0) translateY(-10px) scale(1);
+            }
+            75% {
+                transform: rotate(var(--angle)) translate(var(--radius)) translateX(-6px) translateY(-14px) scale(1.03);
+            }
+            100% {
+                transform: rotate(var(--angle)) translate(var(--radius)) translateX(0) translateY(0) scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="base">
+    <div class="orbit" aria-label="Logos around central table">
+        <div class="center" aria-hidden="true"></div>
+
+        <!-- Centered Aivana logo (semi-transparent) -->
+        <div class="center-aivana" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4015 3.07324L12.7328 8.56712H14.3142C21.5076 8.56712 26.5804 15.6167 24.3007 22.4353L23.9516 23.4776H22.2213L17.9032 12.2947H8.54308L1.62695 28.9817H7.5778L12.2142 17.7937H14.1345L18.4526 28.9766H27.9154L29.5482 24.0989C32.9985 13.7581 25.3071 3.07324 14.4015 3.07324Z" fill="url(#paint0_linear_8355_186345)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_8355_186345" x1="27.3262" y1="6.01086" x2="8.4488" y2="36.3627" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#1791FF"/>
+                        <stop offset="0.17" stop-color="#7389FF"/>
+                        <stop offset="0.3626" stop-color="#9FF6FB"/>
+                        <stop offset="0.5624" stop-color="#A2FFFB"/>
+                        <stop offset="1" stop-color="#0A8BD2"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Orbit logos around the table (leave bottom center for "You") -->
+        <div class="orbit-item pos-1">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png" alt="ChatGPT"/>
+        </div>
+        <div class="orbit-item pos-2">
+            <img src="https://logo.svgcdn.com/logos/claude-icon.png" alt="Claude"/>
+        </div>
+        <div class="orbit-item pos-3">
+            <img src="https://brandlogos.net/wp-content/uploads/2025/08/meta_ai-logo_brandlogos.net_xjwry-512x504.png" alt="Meta AI"/>
+        </div>
+        <div class="orbit-item pos-4 is-active">
+            <!-- Active circle: logo inside 16 rotating rings -->
+            <div class="circ circ-1"></div>
+            <div class="circ circ-2"></div>
+            <div class="circ circ-3"></div>
+            <div class="circ circ-4"></div>
+            <div class="circ circ-5"></div>
+            <div class="circ circ-6"></div>
+            <div class="circ circ-7"></div>
+            <div class="circ circ-8"></div>
+            <div class="circ circ-9"></div>
+            <div class="circ circ-10"></div>
+            <div class="circ circ-11"></div>
+            <div class="circ circ-12"></div>
+            <div class="circ circ-13"></div>
+            <div class="circ circ-14"></div>
+            <div class="circ circ-15"></div>
+            <div class="circ circ-16"></div>
+            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SparkIcon_.width-500.format-webp.webp" alt="Gemini"/>
+        </div>
+
+        <div class="orbit-item pos-5">
+            <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/mistral-color.png" alt="Mistral"/>
+        </div>
+        <!-- Bottom-center reserved seat (empty) -->
+        <div class="orbit-item seat-me" aria-hidden="true"></div>
+    </div>
+
+    <!--    bg circle pink-->
+    <svg class="circle circle--pink" width="1284" height="543" viewBox="0 0 1284 543" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_103300)">
+            <ellipse cx="770" cy="453.5" rx="570" ry="253.5" fill="#D073FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_103300" x="0" y="0" width="1540" height="907" filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_103300"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!--    bg circle blue-->
+    <svg class="circle circle--blue" width="740" height="870" viewBox="0 0 740 870" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_102961)">
+            <ellipse cx="166.659" cy="546.063" rx="293.644" ry="414.626" transform="rotate(51.4271 166.659 546.063)"
+                     fill="#1791FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_102961" x="-405.699" y="0.314941" width="1144.72" height="1091.5"
+                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_102961"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!--    bg circle purple-->
+    <svg class="circle circle--purple" width="866" height="856" viewBox="0 0 866 856" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.09" filter="url(#filter0_f_7615_102962)">
+            <ellipse cx="668" cy="409" rx="468" ry="247" fill="#7389FF"/>
+        </g>
+        <defs>
+            <filter id="filter0_f_7615_102962" x="0" y="-38" width="1336" height="894" filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_7615_102962"/>
+            </filter>
+        </defs>
+    </svg>
+
+</div>
+
+</body>
+</html>
