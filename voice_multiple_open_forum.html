@@ -280,25 +280,14 @@
             animation: none;
         }
 
-        /* positions around the center: arc in front of the user (top half) */
-        .orbit-item.seat-me { --angle: 90deg; }
-        .orbit-item.pos-1 { --angle: -200deg; }
-        .orbit-item.pos-2 { --angle: -145deg; }
-        .orbit-item.pos-3 { --angle: -90deg; }
-        .orbit-item.pos-4 { --angle: -30deg; }
-        .orbit-item.pos-5 { --angle: 25deg; }
 
         /* More active floating for orbit items (exclude the user seat and the active ring) */
-        .orbit-item:not(.seat-me) {
+        .orbit-item:not(.seat-me):not(.is-active) {
             animation: float-self 6s ease-in-out infinite;
             will-change: transform;
         }
 
         /* Stagger the float so they don't sync */
-        .orbit-item.pos-2:not(.seat-me) { animation-delay: .15s; }
-        .orbit-item.pos-3:not(.seat-me) { animation-delay: .3s; }
-        .orbit-item.pos-4:not(.seat-me) { animation-delay: .45s; }
-        .orbit-item.pos-5:not(.seat-me) { animation-delay: .6s; }
 
         @keyframes float-self {
             0% {
@@ -372,9 +361,9 @@
             <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SparkIcon_.width-500.format-webp.webp" alt="Gemini"/>
         </div>
 
-<!--        <div class="orbit-item pos-4">-->
-<!--            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SparkIcon_.width-500.format-webp.webp" alt="Gemini"/>-->
-<!--        </div>-->
+        <!--<div class="orbit-item pos-4">
+            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SparkIcon_.width-500.format-webp.webp" alt="Gemini"/>
+        </div>-->
 
         <div class="orbit-item pos-5">
             <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/mistral-color.png" alt="Mistral"/>
@@ -433,6 +422,86 @@
     </svg>
 
 </div>
+
+<!-- Dynamic orbit layout controller: computes angles and delays for any number of .orbit-item (except the bottom seat) -->
+<style>
+  /* Use JS-provided per-item delays when available (override any pos-* rules) */
+  .orbit-item:not(.seat-me) { animation-delay: var(--float-delay, 0s) !important; }
+</style>
+<script>
+  (function(){
+    const ORBIT_SELECTOR = '.orbit';
+    const ITEM_SELECTOR = '.orbit-item';
+    const SEAT_SELECTOR = '.orbit-item.seat-me';
+
+    // Config: keep a gap at the bottom for the user's seat
+    const GAP_DEG = 80; // size of empty arc centered at bottom (90deg)
+    const ARC_DEG = 360 - GAP_DEG; // available arc for items
+    const TOP_DEG = -90; // top is -90deg in our polar system (matches existing CSS)
+
+    let resizeRaf = 0;
+
+    function computeRadiusPx() {
+      // Responsive radius bounded to keep items visible on small screens
+      const minDim = Math.min(window.innerWidth, window.innerHeight);
+      // 32% of min dimension, clamped between 180px and 420px
+      const r = Math.max(180, Math.min(420, Math.round(minDim * 0.32)));
+      return r;
+    }
+
+    function layout() {
+      const orbit = document.querySelector(ORBIT_SELECTOR);
+      if (!orbit) return;
+      const items = Array.from(orbit.querySelectorAll(ITEM_SELECTOR))
+        .filter(el => !el.matches(SEAT_SELECTOR));
+
+      const N = items.length;
+      if (N === 0) return;
+
+      const step = ARC_DEG / N; // degrees between items
+      const start = TOP_DEG - (ARC_DEG / 2); // start angle at left end of the arc
+      const radius = computeRadiusPx();
+
+      items.forEach((el, i) => {
+        const angle = start + (i + 0.5) * step; // center items within segments
+        el.style.setProperty('--angle', angle + 'deg');
+        el.style.setProperty('--radius', radius + 'px');
+        // Staggered float delay so bubbles are desynced
+        el.style.setProperty('--float-delay', (i * 0.15).toFixed(2) + 's');
+      });
+
+      // Ensure the seat stays bottom-center
+      const seat = orbit.querySelector(SEAT_SELECTOR);
+      if (seat) {
+        seat.style.setProperty('--radius', radius + 'px');
+        seat.style.setProperty('--angle', '90deg');
+      }
+    }
+
+    function onResize() {
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(layout);
+    }
+
+    function observe() {
+      const orbit = document.querySelector(ORBIT_SELECTOR);
+      if (!orbit) return;
+      const mo = new MutationObserver(muts => {
+        for (const m of muts) {
+          if (m.type === 'childList') { layout(); return; }
+          if (m.type === 'attributes' && m.attributeName === 'class') { layout(); return; }
+        }
+      });
+      mo.observe(orbit, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      layout();
+      observe();
+      window.addEventListener('resize', onResize);
+    });
+  })();
+</script>
 
 </body>
 </html>
